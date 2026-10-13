@@ -1,0 +1,58 @@
+[
+  {
+    "test_id": "TC-056",
+    "feature_area": "Wide-Schema Ingestion Stress",
+    "scenario": "Streaming Pass 1 Preview on 1M-Row Wide CSV (87 Columns, 1.30 GB)",
+    "preconditions": "Sift desktop running at http://127.0.0.1:8765, clean slate state",
+    "dataset_used": "dataset_stress_1m_wide.csv",
+    "steps": "1. Enter path to dataset_stress_1m_wide.csv into dataset input<br>2. Click Preview File<br>3. Measure elapsed preview seconds and server RSS memory<br>4. Inspect preview table rendering and canonical column mappings",
+    "expected": "Streaming preview extracts first 1,000 rows in < 5.0s, maps canonical columns automatically, renders preview table with horizontal scroll, server RSS stays well below 4GB",
+    "actual": "Pass 1 streaming preview succeeded in 1.19s; server RSS rose from 56.3MB to 118.7MB; 11 canonical columns mapped with badges; first 1,000 rows rendered with horizontal overflow-x-auto container.",
+    "severity": "High",
+    "tester_status": "Pass",
+    "dev_status": "Working as Designed",
+    "dev_comments": "Pass 1 streaming preview handles 1M-row 87-column CSV with sub-2-second latency and minimal memory footprint."
+  },
+  {
+    "test_id": "TC-057",
+    "feature_area": "Wide-Schema Ingestion Stress",
+    "scenario": "Vectorized Pass 1 Preview on 15M-Row Wide Parquet (87 Columns, 1.53 GB)",
+    "preconditions": "Sift desktop running at http://127.0.0.1:8765, clean slate state",
+    "dataset_used": "dataset_stress_15m_wide.parquet",
+    "steps": "1. Enter path to dataset_stress_15m_wide.parquet<br>2. Click Preview File<br>3. Measure elapsed preview seconds and memory telemetry<br>4. Verify sample rows and financial totals display",
+    "expected": "Vectorized metadata scan loads first 1,000 rows in < 3.0s, maps canonical schema, displays scanned totals (.6M Gross, .5M Net) without full table decompression.",
+    "actual": "Pass 1 preview completed in 0.83s; server RSS remained stable at 230.1MB; 11 canonical columns mapped; Scanned File Gross ,597,079.95 and Net ,457,897.14 rendered accurately.",
+    "severity": "Critical",
+    "tester_status": "Pass",
+    "dev_status": "Working as Designed",
+    "dev_comments": "Columnar Parquet reader provides sub-second preview on 15M rows using DuckDB vectorized metadata projection."
+  },
+  {
+    "test_id": "TC-058",
+    "feature_area": "Wide-Schema Ingestion Usability",
+    "scenario": "Non-Canonical Column Visibility & Horizontal Navigation on 87-Column Schemas",
+    "preconditions": "87-column wide dataset previewed in View 1",
+    "dataset_used": "dataset_stress_1m_wide.csv",
+    "steps": "1. Preview 87-column dataset in View 1<br>2. Inspect table headers and horizontal scroll area<br>3. Check for visibility of the 76 non-canonical business attributes (geography, channel, customer tier, contract SLAs)",
+    "expected": "UI provides horizontal scroll or column selector allowing users to inspect all 87 source columns, view their data types, and verify their detection before auditing.",
+    "actual": "DEFECT FOUND (DEF-UI-05): Preview table only renders the 11 canonical mapped columns. The remaining 76 business dimension and metric columns are completely hidden with no column drawer, chips, or indicators, preventing users from validating wide schemas.",
+    "severity": "Medium",
+    "tester_status": "Fail",
+    "dev_status": "New",
+    "dev_comments": "DEF-UI-05: In View1Reconcile.jsx, table rendering is hardcoded to CANONICAL_FIELDS. Add an expandable All Columns (87) drawer or horizontal scroll toggle."
+  },
+  {
+    "test_id": "TC-059",
+    "feature_area": "Pass 2 Vectorized Ingestion",
+    "scenario": "Duplicate Column Name Conflict (pocket_margin_amt) in DuckDB Full Ingestion",
+    "preconditions": "87-column dataset previewed, control totals entered in View 1",
+    "dataset_used": "dataset_stress_15m_wide.parquet",
+    "steps": "1. Load 87-column dataset<br>2. Enter GL control totals<br>3. Check Quarantine acknowledgement<br>4. Click QUARANTINE DISCREPANCIES & CONTINUE<br>5. Inspect network response and database ingestion status",
+    "expected": "DuckDB ingests all rows and columns into transactions table, handling existing derived columns gracefully without SQL binder errors.",
+    "actual": "DEFECT FOUND (DEF-UI-06): Backend returns HTTP 400 Binder Error: Duplicate column name pocket_margin_amt in INSERT. The backend query attempts to project a computed pocket_margin_amt while the column already exists in source dataset, crashing Pass 2 ingestion.",
+    "severity": "Critical",
+    "tester_status": "Fail",
+    "dev_status": "New",
+    "dev_comments": "DEF-UI-06: In backend/ingestion.py, check if pocket_margin_amt already exists in source schema before appending calculated column expression in the INSERT statement."
+  }
+]

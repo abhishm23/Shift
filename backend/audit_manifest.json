@@ -1,0 +1,33 @@
+{
+  "manifest_id": null,
+  "source_filename": null,
+  "source_sha256": null,
+  "total_rows_scanned": 0,
+  "total_rows_ingested": 0,
+  "total_rows_quarantined": 0,
+  "confirmed_gross_list": 0.0,
+  "ingested_gross_list": 0.0,
+  "gross_variance_bp": 0.0,
+  "confirmed_net_invoiced": 0.0,
+  "ingested_net_invoiced": 0.0,
+  "net_variance_bp": 0.0,
+  "reconciliation_status": "AWAITING_RECONCILIATION",
+  "certified_audit": false,
+  "watermark_active": false,
+  "watermark_text": null,
+  "sign_off_user": null,
+  "sign_off_notes": null,
+  "created_at": null,
+  "tier_unlocked": 0,
+  "tier_1_score": 0.0,
+  "tier_2_score": 0.0,
+  "tier_3_score": 0.0,
+  "readiness_scorecard": {
+    "tier_unlocked": 0,
+    "tier_1_score": 0.0,
+    "tier_2_score": 0.0,
+    "tier_3_score": 0.0,
+    "metrics": {}
+  },
+  "quarantine_override": false
+}

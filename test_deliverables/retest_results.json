@@ -1,0 +1,42 @@
+{
+  "DEF-UI-01": {
+    "status": "PASS",
+    "details": "Verified that loading dataset_05_missing_null_columns.csv unlocks Tier 1 (Price Realization) while strictly locking Tier 2 (Pocket Contribution) with LOCKED amber badge due to missing COGS and rebate columns."
+  },
+  "DEF-UI-02": {
+    "status": "PASS",
+    "details": "Verified presence and functionality of 11 interactive column remapping dropdowns in View 1 (.column-mapping select). Dynamic option changes reactively update column mapping state."
+  },
+  "DEF-UI-03": {
+    "status": "PASS",
+    "details": "Verified View 2 Three-Column attribute categorization receives and populates dataset column chips from View 1. The uninitialized \"No attributes loaded yet\" message is completely absent."
+  },
+  "DEF-UI-04": {
+    "status": "PASS",
+    "details": "Verified View 3 beam search transmits dynamic investigated dimensions calibrated in View 2 to /api/triage/beam-search instead of hardcoded dummy dimensions."
+  },
+  "DEF-UI-05": {
+    "status": "PASS",
+    "details": "Verified all 87 non-canonical columns in wide datasets are visible and browsable in View 1 via the \"All Columns (87)\" toggle with data type badges and horizontal scrolling."
+  },
+  "DEF-UI-06": {
+    "status": "PASS",
+    "details": "Verified Pass 2 vectorized DuckDB ingestion succeeds without duplicate column name conflicts on schemas containing pocket_margin_amt. Derived columns are safely aliased and projected via COALESCE, eliminating DuckDB HTTP 400 Binder Errors."
+  },
+  "DEF-UI-07": {
+    "status": "PASS",
+    "details": "Verified Reconciliation Gate evaluates control totals against full-file vectorized scan ($31.56B Gross, $27.49B Net) rather than 1,000-row sample ($31.5M), achieving 0.00% variance (<= 1 bp) and unlocking Certified Audit Approved status."
+  },
+  "DEF-UI-08": {
+    "status": "PASS",
+    "details": "Verified all 62 categorical dimensions in wide datasets appear as selectable comparability chips across Fair Pricing Factors and Audited Deal Factors in View 2 (counters: ['20', '46'])."
+  },
+  "DEF-UI-09": {
+    "status": "PASS",
+    "details": "Verified beam search successfully traverses high-dimensional dimensional space (both physical columns and dimension_attributes JSON), isolating buried compound culprits (Alpha, Beta, Gamma)."
+  },
+  "DEF-UI-10": {
+    "status": "PASS",
+    "details": "Verified column search and taxonomy filtering (['SALES', 'PRODUCT', 'CUSTOMER', 'DEAL']) dynamically filter attributes by domain, eliminating cognitive overload on 87-column schemas."
+  }
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "defect_id": "DEF-UI-05",
+    "test_id": "TC-058",
+    "feature_area": "View 1 Wide Schema Preview",
+    "severity": "Medium",
+    "dev_status": "New",
+    "dataset_used": "dataset_stress_1m_wide.csv",
+    "steps": "1. Enter path to 87-column dataset (dataset_stress_1m_wide.csv) in Step 1.\n2. Click Preview File.\n3. Inspect the rendered preview table and horizontal scroll container.",
+    "expected": "Preview table or column inspector displays all 87 source columns (62 categorical, 18 numerical, 7 identifiers) with data types and mapping chips.",
+    "actual_root_cause": "Only 11 canonical columns are rendered in the preview table. The remaining 76 business attributes are completely hidden with no column drawer or selector. View1Reconcile.jsx iterates only over CANONICAL_FIELDS for table headers.",
+    "mitigation": "Provide an expandable All Columns (87) table drawer or toggle in View1Reconcile.jsx allowing users to browse all detected non-canonical dimensions."
+  },
+  {
+    "defect_id": "DEF-UI-06",
+    "test_id": "TC-059",
+    "feature_area": "View 1 Pass 2 Ingestion Engine",
+    "severity": "Critical",
+    "dev_status": "New",
+    "dataset_used": "dataset_stress_15m_wide.parquet",
+    "steps": "1. In Step 1, preview dataset_stress_15m_wide.parquet.\n2. Enter control totals and tick Quarantine checkbox.\n3. Click QUARANTINE DISCREPANCIES & CONTINUE.\n4. Inspect server network response.",
+    "expected": "Pass 2 vectorized DuckDB scan ingests all rows and columns cleanly into the analytical workspace.",
+    "actual_root_cause": "Ingestion fails with HTTP 400 Binder Error: Duplicate column name pocket_margin_amt in INSERT. In backend/ingestion.py, the INSERT query projects a computed pocket_margin_amt without checking if the source dataset already contains that column.",
+    "mitigation": "In backend/ingestion.py, exclude pocket_margin_amt from the projected SELECT if it is already present in source dataset schema, or use column aliasing."
+  },
+  {
+    "defect_id": "DEF-UI-07",
+    "test_id": "TC-060",
+    "feature_area": "View 1 Reconciliation Gate",
+    "severity": "High",
+    "dev_status": "New",
+    "dataset_used": "dataset_stress_1m_wide.csv",
+    "steps": "1. In Step 1, enter path to dataset_stress_1m_wide.csv and click Preview File.\n2. Enter official GL control totals: Gross = 31,643,595,200.00, Net = 27,842,500,000.00.\n3. Observe the reconciliation status panel.",
+    "expected": "Reconciliation gate compares control totals against full dataset totals or clearly indicates that sample preview totals are temporary.",
+    "actual_root_cause": "UI compares GL control totals against the 1,000-row preview sample (.1M), computing a 99.9% variance and locking the user into Quarantine mode before full file ingestion. View1Reconcile.jsx computes variance using preview_summary rather than Pass 2 full scan totals.",
+    "mitigation": "Decouple sample preview display from GL control total verification, or run a fast metadata sum query on Parquet/CSV during Pass 1."
+  },
+  {
+    "defect_id": "DEF-UI-08",
+    "test_id": "TC-062",
+    "feature_area": "View 2 Attribute Selector",
+    "severity": "Critical",
+    "dev_status": "New",
+    "dataset_used": "dataset_stress_1m_wide.csv",
+    "steps": "1. Preview 87-column dataset in Step 1.\n2. Navigate to Step 2: 2. Compare Similar Deals.\n3. Inspect Three-Column grouping containers.",
+    "expected": "All 62 categorical dimensions appear as draggable/clickable chips across Fair Pricing Factors, Audited Factors, and Excluded.",
+    "actual_root_cause": "View 2 displays 0 factors loaded (No attributes loaded yet). Column metadata from the active dataset is not passed from App.jsx to View2Calibrate.jsx, preventing users from selecting comparability controls on wide schemas.",
+    "mitigation": "Pass active column manifest from App.jsx state to View2Calibrate.jsx, or fetch categorical columns dynamically from /api/workspace upon mounting."
+  },
+  {
+    "defect_id": "DEF-UI-09",
+    "test_id": "TC-064",
+    "feature_area": "View 3 Beam Search Traversal",
+    "severity": "Critical",
+    "dev_status": "New",
+    "dataset_used": "dataset_stress_15m_wide.parquet",
+    "steps": "1. Preview 15M stress dataset in Step 1.\n2. Navigate to Step 3: 3. Discover Profit Opportunities.\n3. Click Scan for High-Priority Profit Leaks.\n4. Observe findings table and compound culprit detection.",
+    "expected": "Beam search traverses high-dimensional space and isolates buried compound culprits (Culprit Alpha: EMEA+Gold+MultiYear; Culprit Beta; Culprit Gamma).",
+    "actual_root_cause": "View3Triage.jsx sends hardcoded payload: investigation_dims: [sales_rep, channel, contract_type] which do not match the 87-column dataset schema, resulting in 0 candidate findings and failing to uncover buried culprits.",
+    "mitigation": "In View3Triage.jsx, pass investigated dimensions selected in View 2 calibration, or dynamically query the workspace schema for categorical dimensions."
+  },
+  {
+    "defect_id": "DEF-UI-10",
+    "test_id": "TC-068",
+    "feature_area": "UI/UX Wide Schema Usability Friction",
+    "severity": "Medium",
+    "dev_status": "New",
+    "dataset_used": "dataset_stress_1m_wide.csv",
+    "steps": "1. Ingest 87-column dataset.\n2. Attempt to locate, inspect, or audit specific pricing attributes (e.g. partner tier, contract SLA, sales theater) in View 1 and View 2.",
+    "expected": "UI provides search, taxonomy hierarchy, or column management drawers to help non-technical users navigate 87 columns without friction.",
+    "actual_root_cause": "No search, filtering, or taxonomy grouping exists. In View 1, columns are omitted; in View 2, if loaded, 87 chips would form an unorganized block. Non-technical users cannot efficiently find or organize commercial dimensions.",
+    "mitigation": "Implement a searchable and categorizable attribute selector grouped by domain taxonomy (Sales Hierarchy, Product Taxonomy, Customer Demographics, Deal Stipulations)."
+  }
+]

@@ -1,0 +1,14 @@
+dist/
+src-tauri/target/
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+test_deliverables/datasets/dataset_stress_*.csv
+test_deliverables/datasets/*.parquet
+uploads/*.tmp
+uploads/*.csv
+*.log
+.agents/

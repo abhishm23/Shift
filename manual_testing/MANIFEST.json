@@ -1,0 +1,75 @@
+{
+  "enterprise_2m_parquet": {
+    "path": "enterprise_2m_transactions.parquet",
+    "rows": 2000000,
+    "format": "PARQUET",
+    "currencies": [
+      "USD",
+      "EUR",
+      "GBP",
+      "CAD",
+      "JPY"
+    ],
+    "planted_anomalies_count": 50
+  },
+  "reconciliation_quarantine_csv": {
+    "path": "reconciliation_quarantine_breach.csv",
+    "rows": 25000,
+    "format": "CSV",
+    "declared_list": 49885389.9,
+    "declared_net": 40901002.22,
+    "actual_list": 49711400.0,
+    "actual_net": 40758348.0,
+    "variance_bp": 35.0,
+    "expected_status": "QUARANTINE_WATERMARK"
+  },
+  "reconciliation_certified_csv": {
+    "path": "reconciliation_certified_audit.csv",
+    "rows": 25000,
+    "format": "CSV",
+    "declared_list": 77473900.0,
+    "declared_net": 65852815.0,
+    "actual_list": 77473900.0,
+    "actual_net": 65852815.0,
+    "variance_bp": 0.0,
+    "expected_status": "CERTIFIED_AUDIT"
+  },
+  "formula_injection_csv": {
+    "path": "formula_injection_and_reversals.csv",
+    "rows": 5000,
+    "format": "CSV",
+    "has_negative_numbers": true,
+    "has_formulas": true
+  },
+  "sparse_cohorts_parquet": {
+    "path": "sparse_cohorts_backoff.parquet",
+    "rows": 15000,
+    "format": "PARQUET",
+    "sparse_cohorts": [
+      "Quantum Computing",
+      "Legacy Mainframe"
+    ]
+  },
+  "pvmc_two_periods_parquet": {
+    "path": "macro_bridge_pvmc_two_periods.parquet",
+    "rows": 100000,
+    "format": "PARQUET",
+    "periods": [
+      "2024-H1",
+      "2025-H1"
+    ],
+    "uoms": [
+      "USER_LICENSES",
+      "CONSULTING_HOURS"
+    ]
+  },
+  "deal_desk_xlsx": {
+    "path": "complex_commercial_deal_desk.xlsx",
+    "rows": 2500,
+    "format": "XLSX",
+    "sheets": [
+      "Granular_Sales_Transactions",
+      "Authority_Matrix"
+    ]
+  }
+}

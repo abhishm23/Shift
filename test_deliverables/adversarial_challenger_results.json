@@ -1,0 +1,42 @@
+{
+  "DEF-UI-01": {
+    "status": "PASS",
+    "verdict": "Adversarial state transition cycle (Clean -> D01 Unlocked -> D05 Locked -> D01 Re-unlocked) passed. Pocket margin state is strictly purged upon switching datasets."
+  },
+  "DEF-UI-02": {
+    "status": "PASS",
+    "verdict": "Interactive column remapping dropdowns trigger real-time reactive state re-evaluations across all readiness tiers (unmapping COGS/rebates locks Tier 2; unmapping Net Invoiced locks Tiers 1 and 2; restoring mappings immediately restores unlocked status)."
+  },
+  "DEF-UI-05": {
+    "status": "PASS",
+    "verdict": "Verified All Columns toggle renders all 87 headers with exact 1:1 row cell parity (every row has 87 <td> elements). Verified smooth horizontal scrolling across container (15717px) with zero DOM truncation or header misalignments."
+  },
+  "DEF-UI-07": {
+    "status": "PASS",
+    "verdict": "Full-dataset reconciliation gate verified across 4 boundary conditions: (1) Sample-only totals rejected with Quarantine; (2) 3 bp deviation rejected with Quarantine; (3) 0.5 bp deviation accepted as Certified Audit; (4) Exact totals accepted with 0.00 bp variance unlocking Certified Audit Approved status."
+  },
+  "DEF-UI-08": {
+    "status": "PASS",
+    "verdict": "VERIFIED all 62 categorical dimensions populate as interactive chips across Fair Pricing Factors (20) and Audited Deal Factors (46). Bidirectional interactive chip movement updates UI state and counters accurately."
+  },
+  "DEF-UI-10": {
+    "status": "PASS",
+    "verdict": "VERIFIED column search input and taxonomy pills (Product: 13, Customer: 13, Combined: 9) dynamically filter attributes in real time, with instant counter updates and clean resets."
+  },
+  "DEF-UI-03": {
+    "status": "PASS",
+    "verdict": "Verified View 2 THREE-COLUMN attribute categorization receives and populates dataset columns from View 1 without placeholder errors."
+  },
+  "DEF-UI-04": {
+    "status": "PASS",
+    "verdict": "VERIFIED View 3 beam search transmits dynamic investigated dimensions (46 dims) rather than hardcoded dummy columns."
+  },
+  "DEF-UI-06": {
+    "status": "PASS",
+    "verdict": "VERIFIED Pass 2 DuckDB ingestion executed without binder errors on schemas containing pocket_margin_amt."
+  },
+  "DEF-UI-09": {
+    "status": "PASS",
+    "verdict": "VERIFIED beam search traversed high-dimensional space and successfully rendered ranked opportunities ledger."
+  }
+}
